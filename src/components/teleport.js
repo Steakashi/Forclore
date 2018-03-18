@@ -7,7 +7,9 @@ var Teleport= function(){
     schema: {
       target: {type: 'vec3'},
       action: {type: 'string'},
-      light: {type: 'boolean'}
+      light: {type: 'boolean'},
+      disable: {type: 'boolean', default:false},
+      target_to_activate: {type: 'string', default:null}
     },
 
     init: function () {
@@ -17,7 +19,6 @@ var Teleport= function(){
       var el = this.el;
       var data = this.data;
       var isIntersecting = false;
-      var deactivate_interaction = false;
 
       var global_timer = 0;
       
@@ -63,14 +64,16 @@ var Teleport= function(){
 
       function interaction_is_possible(){
 
+
+
         if (isIntersecting == false){
 
-          if (data.action == 'teleport' && (player.getAttribute('position') != data.target)){
+          if (data.action == 'teleport' && (player.getAttribute('position') != data.target && data.disable == false)){
 
             return true
 
           }
-          else if ((data.action == 'interact' || data.action == "light_torch") && deactivate_interaction == false){
+          else if ((data.action == 'interact' || data.action == "light_torch") && data.disable == false){
 
             return true
 
@@ -84,10 +87,11 @@ var Teleport= function(){
       
       function raycaster_intersected(){
 
-        console.log('interaction')
 
     /*    if ((isIntersecting != true) ||
            ((data.action == teleport) && (player.getAttribute('position') != data.target))){*/
+
+        console.log(data.disable);
 
         if (interaction_is_possible()){
 
@@ -120,7 +124,7 @@ var Teleport= function(){
       function interact(){
 
         el.setAttribute('material', 'color', 'green');
-        deactivate_interaction = true;
+        data.disable = true;
         raycaster_intersected_cleared();
 
       }
@@ -164,10 +168,10 @@ var Teleport= function(){
         var light_animation = document.createElement('a-animation');
 
         light_animation.setAttribute('attribute', 'intensity');
-        light_animation.setAttribute("dur", "1400");
+        light_animation.setAttribute("dur", "1000");
         light_animation.setAttribute("from", "0");
-        light_animation.setAttribute("to", "1.2");
-        light_animation.setAttribute("esing", "easeOut");
+        light_animation.setAttribute("to", "1.6");
+        light_animation.setAttribute("esing", "easeIn");
 
         target.appendChild(light_animation);
 
@@ -178,9 +182,9 @@ var Teleport= function(){
         var light_animation = document.createElement('a-animation');
 
         light_animation.setAttribute('attribute', 'intensity');
-        light_animation.setAttribute("dur", "2000");
-        light_animation.setAttribute("from", "1");
-        light_animation.setAttribute("to", "1.6");
+        light_animation.setAttribute("dur", "3000");
+        light_animation.setAttribute("from", "1.8");
+        light_animation.setAttribute("to", "2.5");
         light_animation.setAttribute("direction", "alternate");
         light_animation.setAttribute("esing", "easeInOutElastic");
         light_animation.setAttribute("repeat", "indefinite");
@@ -193,6 +197,23 @@ var Teleport= function(){
       function light_torch(){
 
         interact();
+
+        if (data.target_to_activate != null) {
+
+          console.log('---------------------');
+          console.log('---------------------');
+          console.log(data.target_to_activate);
+          console.log('---------------------');
+          console.log('---------------------');
+          console.log(document.getElementById(data.target_to_activate))
+          document.getElementById(data.target_to_activate).setAttribute('teleport', 'disable', false);
+          document.getElementById(data.target_to_activate).object3D.teleport = 'disable:false';
+          document.getElementById(data.target_to_activate).emit('doThing');
+          document.getElementById(data.target_to_activate).flushToDOM();
+                    console.log(document.getElementById(data.target_to_activate))
+
+
+        }
 
         var light_object = el.parentNode.querySelector('a-light');
         
