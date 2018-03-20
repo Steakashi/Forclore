@@ -13,11 +13,7 @@ var Teleport= function(){
     },
 
     init: function () {
-      console.log('init');
-      console.log(this.el);
-      console.log('---------')
       var el = this.el;
-      var data = this.data;
       var isIntersecting = false;
 
       var global_timer = 0;
@@ -25,9 +21,7 @@ var Teleport= function(){
       var loader = document.getElementById('teleport_loader');
       var action_to_perform = null
 
-      console.log(data.action);
-
-      if (data.action == 'teleport'){
+      if (this.data.action == 'teleport'){
 
         var timer_blackscreen = 0;
         var player =  document.querySelector("#player");
@@ -37,32 +31,39 @@ var Teleport= function(){
 
 
       }
-      else if (data.action == 'interact'){
+      else if (this.data.action == 'interact'){
 
         action_to_perform = interact
 
       }
-            else if (data.action == 'light_torch'){
+            else if (this.data.action == 'light_torch'){
 
         action_to_perform = light_torch
 
       }
 
-      console.log('DATA PRINT');
-      console.log(data.light);
-      if (data.light == true){
+      if (this.data.light == true){
 
         create_light_animation_repeat(el.parentNode.querySelector('a-light'));
 
       }
       else{
 
-        this.el.addEventListener('raycaster-intersected', raycaster_intersected);
-        this.el.addEventListener('raycaster-intersected-cleared', raycaster_intersected_cleared); 
+        console.log(this.data);
+        this.el.addEventListener('raycaster-intersected', function(){ raycaster_intersected(this.data) });
+        this.el.addEventListener('raycaster-intersected-cleared', function(){  raycaster_intersected_cleared(this.data) }); 
 
       }
 
-      function interaction_is_possible(){
+      action_to_perform();
+
+      this.action_to_perform = function(){
+
+        console.log(this.data);
+
+      }
+
+      function interaction_is_possible(data){
 
 
 
@@ -85,23 +86,22 @@ var Teleport= function(){
 
       }
       
-      function raycaster_intersected(){
+      function raycaster_intersected(data){
 
 
     /*    if ((isIntersecting != true) ||
            ((data.action == teleport) && (player.getAttribute('position') != data.target))){*/
 
-        console.log(data.disable);
+        console.log(data);
 
-        if (interaction_is_possible()){
+        if (interaction_is_possible(data)){
 
           isIntersecting = true;
           loader.style.display = "block";
           
           requestAnimationFrame(function(timestamp){
 
-
-            global_timer = setTimeout(action_to_perform, 1000);
+            global_timer = setTimeout(function(){ action_to_perform(data) }, 1000);
 
           });
 
@@ -121,7 +121,7 @@ var Teleport= function(){
 
       }
 
-      function interact(){
+      function interact(data){
 
         el.setAttribute('material', 'color', 'green');
         data.disable = true;
@@ -129,7 +129,7 @@ var Teleport= function(){
 
       }
 
-      function teleport(){
+      function teleport(data){
 
         console.log('teleporting  ');
 
@@ -194,9 +194,13 @@ var Teleport= function(){
 
       }
  
-      function light_torch(){
+      function light_torch(data){
 
-        interact();
+        interact(data);
+
+        console.log('LIGHT TORCH');
+
+        console.log(data.target_to_activate );
 
         if (data.target_to_activate != null) {
 
@@ -250,7 +254,10 @@ var Teleport= function(){
     },
 
     update: function(){
-      
+
+      console.log('UPDATING')
+      console.log(this.data);
+
     },
 
     intersectHandler: function(){

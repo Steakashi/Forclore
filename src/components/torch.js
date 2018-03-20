@@ -16,9 +16,6 @@ var Torch= function(){
   			var _light = data.light;
         var _target = data.target;
 
-  			console.log('DATA TORCh');
-  			console.log(_light);
-
   			if (_light == true){
 
   				_light = '; light:true';
@@ -48,8 +45,6 @@ var Torch= function(){
 			var light = '<a-light type="point" color="rgb(255, 169, 35)" intensity="0" distance="200" position="0 1.541 0"></a-light>'
 
 			el.innerHTML = collider_entity + object + light;
-
-			console.log(el);
 
   		}
 
