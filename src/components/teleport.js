@@ -17,11 +17,14 @@ var Teleport= function(){
       var isIntersecting = false;
 
       var global_timer = 0;
+
+      var data = this.data
+      this.data_test = this.data
       
       var loader = document.getElementById('teleport_loader');
-      var action_to_perform = null
+      var action_to_perform = null;
 
-      if (this.data.action == 'teleport'){
+      if (data.action == 'teleport'){
 
         var timer_blackscreen = 0;
         var player =  document.querySelector("#player");
@@ -31,39 +34,30 @@ var Teleport= function(){
 
 
       }
-      else if (this.data.action == 'interact'){
+      else if (data.action == 'interact'){
 
         action_to_perform = interact
 
       }
-            else if (this.data.action == 'light_torch'){
+            else if (data.action == 'light_torch'){
 
         action_to_perform = light_torch
 
       }
 
-      if (this.data.light == true){
+      if (data.light == true){
 
         create_light_animation_repeat(el.parentNode.querySelector('a-light'));
 
       }
       else{
 
-        console.log(this.data);
-        this.el.addEventListener('raycaster-intersected', function(){ raycaster_intersected(this.data) });
-        this.el.addEventListener('raycaster-intersected-cleared', function(){  raycaster_intersected_cleared(this.data) }); 
+        this.el.addEventListener('raycaster-intersected', raycaster_intersected);
+        this.el.addEventListener('raycaster-intersected-cleared', raycaster_intersected_cleared); 
 
       }
 
-      action_to_perform();
-
-      this.action_to_perform = function(){
-
-        console.log(this.data);
-
-      }
-
-      function interaction_is_possible(data){
+      function interaction_is_possible(){
 
 
 
@@ -86,22 +80,16 @@ var Teleport= function(){
 
       }
       
-      function raycaster_intersected(data){
+      function raycaster_intersected(){
 
-
-    /*    if ((isIntersecting != true) ||
-           ((data.action == teleport) && (player.getAttribute('position') != data.target))){*/
-
-        console.log(data);
-
-        if (interaction_is_possible(data)){
+        if (interaction_is_possible()){
 
           isIntersecting = true;
           loader.style.display = "block";
           
           requestAnimationFrame(function(timestamp){
 
-            global_timer = setTimeout(function(){ action_to_perform(data) }, 1000);
+            global_timer = setTimeout(function(){ action_to_perform() }, 1000);
 
           });
 
@@ -121,7 +109,7 @@ var Teleport= function(){
 
       }
 
-      function interact(data){
+      function interact(){
 
         el.setAttribute('material', 'color', 'green');
         data.disable = true;
@@ -129,9 +117,7 @@ var Teleport= function(){
 
       }
 
-      function teleport(data){
-
-        console.log('teleporting  ');
+      function teleport(){
 
         show_black_screen()
         setTimeout(hide_black_screen, 1000); 
@@ -194,28 +180,13 @@ var Teleport= function(){
 
       }
  
-      function light_torch(data){
+      function light_torch( ){
 
         interact(data);
 
-        console.log('LIGHT TORCH');
-
-        console.log(data.target_to_activate );
-
         if (data.target_to_activate != null) {
 
-          console.log('---------------------');
-          console.log('---------------------');
-          console.log(data.target_to_activate);
-          console.log('---------------------');
-          console.log('---------------------');
-          console.log(document.getElementById(data.target_to_activate))
           document.getElementById(data.target_to_activate).setAttribute('teleport', 'disable', false);
-          document.getElementById(data.target_to_activate).object3D.teleport = 'disable:false';
-          document.getElementById(data.target_to_activate).emit('doThing');
-          document.getElementById(data.target_to_activate).flushToDOM();
-                    console.log(document.getElementById(data.target_to_activate))
-
 
         }
 
@@ -236,29 +207,14 @@ var Teleport= function(){
 
       }
 
-      function create_torch(){
-        /*var torch = document.createElement('a-obj-model');
-        torch.setAttribute('src', '../../public/models/objects/firetorch.obj');
-        torch.setAttribute('obj-model', '../../public/models/objects/firetorch.obj');
-        torch.setAttribute('scale', '0.02 0.02 0.02');
-
-        el.parentNode
-
-        src="public/models/objects/firetorch.obj" obj-model="public/models/objects/firetorch.obj" scale="0.02 0.02 0.02"*/
-      }
-
     }, 
-
-    doThing: function() {
-      console.log('It is doing something !')
-    },
 
     update: function(){
 
-      console.log('UPDATING')
-      console.log(this.data);
+      this.init();
 
     },
+
 
     intersectHandler: function(){
 
@@ -278,19 +234,6 @@ var Teleport= function(){
     }
 
   }); 
-
-
-              /*requestAnimationFrame(function(timestamp){
-
-                
-
-              }, 1000);*/
-              /*
-              var animator = document.createElement('a-animation');
-              animator.setAttribute("attribute", "position");
-              animator.setAttribute("from", "0, 0, 0");
-              animator.setAttribute("to", "0 10 0");
-              player.appendChild(animator);*/ 
 
 };
 

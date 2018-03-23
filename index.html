@@ -23,9 +23,14 @@
         <a-entity raycaster="showLine: true; far: 100; objects: .collidable" line="color: red; opacity: 1" position="0 -0.1 0" rotation="0 0 0"></a-entity>
       </a-camera>-->
       <!--<a-entity position="0 2.25 -15" particle-system="preset: dust; particleCount: 10000" rotation="" scale="" visible=""></a-entity>-->
-    <a-camera id="player" wasd-controls look-controls position="0 0 0">
+    <a-camera eyes id="player" wasd-controls look-controls position="0 0 0">
       <!-- camera -->
-        
+
+      <a-entity id="blackscreen" geometry="primitive: plane" material="shader: flat; color:black; transparent:true" position="0 0 -.1"></a-entity>
+
+      <a-entity id="opacity" position="0 0 -2"
+                text="color: white; align: center; value: Animating opacity; width: 1.5">
+      </a-entity>
       <a-entity id="head"></a-entity>
       <a-entity raycaster="showLine: true; far: 100; objects: .collidable" line="color: red; opacity: 1" position="0 -0.1 0" rotation="0 0 0"></a-entity>
 
