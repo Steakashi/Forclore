@@ -26,7 +26,7 @@
     <a-camera eyes id="player" wasd-controls look-controls position="0 0 0">
       <!-- camera -->
 
-      <a-entity id="blackscreen" geometry="primitive: plane" material="shader: flat; color:black; transparent:true" position="0 0 -.1"></a-entity>
+      <a-plane id="blackscreen" shader="flat" color="black" opacity="0" transparent="true" position="0 0 -.1"></a-plane>
 
       <a-entity id="opacity" position="0 0 -2"
                 text="color: white; align: center; value: Animating opacity; width: 1.5">
@@ -38,7 +38,7 @@
     </a-camera>
 
     <a-entity id="tp_1" teleport="target:0 10 0; action:teleport; disable:true" class="collidable" geometry="" position="6.456 4.338 -18.079" material="color:red" raycaster=""></a-entity>
-    <a-entity teleport='action:interact;' class="collidable" geometry="primitive: box" position="-1 0 -1" material="color: red"></a-entity>
+    <a-entity teleport="target:0 10 0; action:teleport;" class="collidable" geometry="primitive: box" position="-1 0 -1" material="color: red"></a-entity>
     <a-entity teleport='action:interact;' class="collidable" geometry="primitive: box" position="-2 0 -2" material="color: red"></a-entity>
 
     <a-entity torch="target: tp_1" position="6.409 -0.354 2.293"></a-entity>

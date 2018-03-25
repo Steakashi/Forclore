@@ -28,7 +28,7 @@ var Teleport= function(){
 
         var timer_blackscreen = 0;
         var player =  document.querySelector("#player");
-        var black_screen = document.getElementById("black_screen");
+        var black_screen = document.getElementById("blackscreen");
 
         action_to_perform = teleport
 
@@ -126,26 +126,31 @@ var Teleport= function(){
 
       function show_black_screen(){
 
-        black_screen.style.display = 'block';
-        black_screen.style.webkitAnimationName = 'add_opacity';
-        black_screen.style.webkitAnimationDuration = '1s';
+        var blackscreen_animation = document.createElement('a-animation');
+
+        blackscreen_animation.setAttribute('attribute', 'opacity');
+        blackscreen_animation.setAttribute("dur", "1000");
+        blackscreen_animation.setAttribute("from", "0");
+        blackscreen_animation.setAttribute("to", "1");
+        blackscreen_animation.setAttribute("easing", "linear");
+
+        black_screen.appendChild(blackscreen_animation);
 
       }
 
       function hide_black_screen(){
-
         
         player.setAttribute('position', data.target );
         
-        black_screen.style.webkitAnimationName = 'remove_opacity';
-        black_screen.style.webkitAnimationDuration = '1s';
+        var blackscreen_animation = document.createElement('a-animation');
 
-        setTimeout(function(){
+        blackscreen_animation.setAttribute('attribute', 'opacity');
+        blackscreen_animation.setAttribute("dur", "1000");
+        blackscreen_animation.setAttribute("from", "1");
+        blackscreen_animation.setAttribute("to", "0");
+        blackscreen_animation.setAttribute("easing", "linear");
 
-          black_screen.style.display = 'none';
-          black_screen.style.opacity = 0;
-
-        }, 1000)
+        black_screen.appendChild(blackscreen_animation);
 
       }
 
@@ -157,7 +162,7 @@ var Teleport= function(){
         light_animation.setAttribute("dur", "1000");
         light_animation.setAttribute("from", "0");
         light_animation.setAttribute("to", "1.6");
-        light_animation.setAttribute("esing", "easeIn");
+        light_animation.setAttribute("easing", "linear");
 
         target.appendChild(light_animation);
 
@@ -172,7 +177,7 @@ var Teleport= function(){
         light_animation.setAttribute("from", "1.8");
         light_animation.setAttribute("to", "2.5");
         light_animation.setAttribute("direction", "alternate");
-        light_animation.setAttribute("esing", "easeInOutElastic");
+        light_animation.setAttribute("easing", "easeInOutElastic");
         light_animation.setAttribute("repeat", "indefinite");
         light_animation.setAttribute("fill", "forwards");
 
