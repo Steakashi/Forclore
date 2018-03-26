@@ -5,4 +5,4 @@ var Eyes = require('./components/eyes.js')
 window.console.log('main.js')
 Teleport.launch();	
 Torch.generate();
-Eyes.open_eyes();
+//Eyes.open_eyes();
