@@ -14,6 +14,9 @@
     <img src="public/img/loader.gif" id="teleport_loader" style="position:fixed; top:50%; left:50%; display:none; z-index:10">
     <div id="black_screen"></div>
    <a-scene fog="type: linear; color: #111111; far: 3000; near: 0">
+     <a-assets>
+        <a-asset-item id="torch_model" src="public/models/objects/torch.gltf">
+     </a-assets>
      <a-gltf-model src="public/models/scenes/scene.gltf" position="34.7 23.904 -132.343" gltf-model="public/models/scenes/scene.gltf"></a-gltf-model> 
      <a-light type="point" color="white" intensity="1" distance="10000" position="0 5 0"></a-light>
      <a-sky color="#ECECEC"></a-sky>
@@ -26,11 +29,13 @@
     <a-camera eyes id="player" wasd-controls look-controls position="0 0 0">
       <!-- camera -->
 
-      <a-plane id="blackscreen" shader="flat" color="black" opacity="0" transparent="true" position="0 0 -.1"></a-plane>
+      <a-plane id="black_screen" shader="flat" color="black" opacity="0" transparent="true" position="0 0 -.1.1"></a-plane>
 
-      <a-entity id="opacity" position="0 0 -2"
-                text="color: white; align: center; value: Animating opacity; width: 1.5">
+      <a-entity text_handler   position="0 -.0 -.1"  
+                text="color: white; align: center; value: VALUE TESTVALUE TEST VALUE TEST; width: .1; wrapCount:20;">
       </a-entity>
+
+
       <a-entity id="head"></a-entity>
       <a-entity raycaster="showLine: true; far: 100; objects: .collidable" line="color: red; opacity: 1" position="0 -0.1 0" rotation="0 0 0"></a-entity>
 

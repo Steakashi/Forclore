@@ -13,7 +13,7 @@ var Eyes= function(){
         var offset_y_axis = 0;
         var previous_offset_y_axis = 0;
         var decreasing = 0.01
-        var black_screen = document.getElementById("blackscreen");
+        var black_screen = document.getElementById("black_screen");
         //black_screen.style.display = 'block'; 
 
         requestAnimationFrame(function(timestamp){
@@ -21,7 +21,6 @@ var Eyes= function(){
         
             var rotation = document.getElementById('player').getAttribute('rotation');
             offset_y_axis += (Math.abs(rotation.y - previous_offset_y_axis) / 200);
-            console.log(offset_y_axis);
             previous_offset_y_axis = rotation.y;
 
             if(offset_y_axis > 1){

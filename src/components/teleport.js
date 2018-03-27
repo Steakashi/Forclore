@@ -26,9 +26,9 @@ var Teleport= function(){
 
       if (data.action == 'teleport'){
 
-        var timer_blackscreen = 0;
+        var timer_black_screen = 0;
         var player =  document.querySelector("#player");
-        var black_screen = document.getElementById("blackscreen");
+        var black_screen = document.getElementById("black_screen");
 
         action_to_perform = teleport
 
@@ -126,15 +126,15 @@ var Teleport= function(){
 
       function show_black_screen(){
 
-        var blackscreen_animation = document.createElement('a-animation');
+        var black_screen_animation = document.createElement('a-animation');
 
-        blackscreen_animation.setAttribute('attribute', 'opacity');
-        blackscreen_animation.setAttribute("dur", "1000");
-        blackscreen_animation.setAttribute("from", "0");
-        blackscreen_animation.setAttribute("to", "1");
-        blackscreen_animation.setAttribute("easing", "linear");
+        black_screen_animation.setAttribute('attribute', 'opacity');
+        black_screen_animation.setAttribute("dur", "1000");
+        black_screen_animation.setAttribute("from", "0");
+        black_screen_animation.setAttribute("to", "1");
+        black_screen_animation.setAttribute("easing", "linear");
 
-        black_screen.appendChild(blackscreen_animation);
+        black_screen.appendChild(black_screen_animation);
 
       }
 
@@ -142,15 +142,15 @@ var Teleport= function(){
         
         player.setAttribute('position', data.target );
         
-        var blackscreen_animation = document.createElement('a-animation');
+        var black_screen_animation = document.createElement('a-animation');
 
-        blackscreen_animation.setAttribute('attribute', 'opacity');
-        blackscreen_animation.setAttribute("dur", "1000");
-        blackscreen_animation.setAttribute("from", "1");
-        blackscreen_animation.setAttribute("to", "0");
-        blackscreen_animation.setAttribute("easing", "linear");
+        black_screen_animation.setAttribute('attribute', 'opacity');
+        black_screen_animation.setAttribute("dur", "1000");
+        black_screen_animation.setAttribute("from", "1");
+        black_screen_animation.setAttribute("to", "0");
+        black_screen_animation.setAttribute("easing", "linear");
 
-        black_screen.appendChild(blackscreen_animation);
+        black_screen.appendChild(black_screen_animation);
 
       }
 
@@ -177,7 +177,7 @@ var Teleport= function(){
         light_animation.setAttribute("from", "1.8");
         light_animation.setAttribute("to", "2.5");
         light_animation.setAttribute("direction", "alternate");
-        light_animation.setAttribute("easing", "easeInOutElastic");
+        light_animation.setAttribute("easing", "ease-in-out-elastic");
         light_animation.setAttribute("repeat", "indefinite");
         light_animation.setAttribute("fill", "forwards");
 
