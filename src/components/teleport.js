@@ -8,8 +8,10 @@ var Teleport= function(){
       target: {type: 'vec3'},
       action: {type: 'string'},
       light: {type: 'boolean'},
+      target_to_activate: {type: 'string', default:null},
+      event: {type: 'string', default:null},
       disable: {type: 'boolean', default:false},
-      target_to_activate: {type: 'string', default:null}
+      step: {type: 'int', default:0}
     },
 
     init: function () {
@@ -23,6 +25,8 @@ var Teleport= function(){
       
       var loader = document.getElementById('teleport_loader');
       var action_to_perform = null;
+
+      var questbook = document.getElementById('questbook')
 
       if (data.action == 'teleport'){
 
@@ -79,6 +83,21 @@ var Teleport= function(){
         return false
 
       }
+
+      function event_handler(){
+
+        if (data.event){ 
+
+          console.log('event handler from teleport');
+          //questbook.setAttribute('questbook', 'step', 100);
+          console.log(questbook);
+          console.log(data.step);
+          var step = data.step.toString();
+          el.emit('pass_step', step); 
+
+        }
+
+      }
       
       function raycaster_intersected(){
 
@@ -89,7 +108,12 @@ var Teleport= function(){
           
           requestAnimationFrame(function(timestamp){
 
-            global_timer = setTimeout(function(){ action_to_perform() }, 1000);
+            global_timer = setTimeout(function(){
+
+              action_to_perform() 
+              event_handler();
+
+            }, 1000);
 
           });
 

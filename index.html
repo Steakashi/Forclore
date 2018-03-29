@@ -17,6 +17,7 @@
      <a-assets>
         <a-asset-item id="torch_model" src="public/models/objects/torch.gltf">
      </a-assets>
+     <a-entity id="questbook" questbook="step:0"></a-entity>
      <a-gltf-model src="public/models/scenes/scene.gltf" position="34.7 23.904 -132.343" gltf-model="public/models/scenes/scene.gltf"></a-gltf-model> 
      <a-light type="point" color="white" intensity="1" distance="10000" position="0 5 0"></a-light>
      <a-sky color="#ECECEC"></a-sky>
@@ -31,8 +32,9 @@
 
       <a-plane id="black_screen" shader="flat" color="black" opacity="0" transparent="true" position="0 0 -.1.1"></a-plane>
 
-      <a-entity text_handler   position="0 -.0 -.1"  
-                text="color: white; align: center; value: VALUE TESTVALUE TEST VALUE TEST; width: .1; wrapCount:20;">
+      <a-entity id="text_handler" text_handler position="0 -.0 -.1"
+                text="color: white; align: center; opacity: 1; width: .1; wrapCount:20;">
+
       </a-entity>
 
 
@@ -43,10 +45,10 @@
     </a-camera>
 
     <a-entity id="tp_1" teleport="target:0 10 0; action:teleport; disable:true" class="collidable" geometry="" position="6.456 4.338 -18.079" material="color:red" raycaster=""></a-entity>
-    <a-entity teleport="target:0 10 0; action:teleport;" class="collidable" geometry="primitive: box" position="-1 0 -1" material="color: red"></a-entity>
+    <a-entity teleport="target:0 10 0; action:teleport;" class="collidable" geometry="primitive: box" position="-1 0 -1" material="transparent:true; opacity:.5; color: red"></a-entity>
     <a-entity teleport='action:interact;' class="collidable" geometry="primitive: box" position="-2 0 -2" material="color: red"></a-entity>
 
-    <a-entity torch="target: tp_1" position="6.409 -0.354 2.293"></a-entity>
+    <a-entity torch="target: tp_1; event: display_text" position="6.409 -0.354 2.293"></a-entity>
     <a-entity torch position="10 10 10"></a-entity>
       <!--<a-entity teleport="action:light_torch" class="collidable" geometry="" position="0 0.45 0" material="color:red" scale="0.2 2.3 0.2" ></a-entity>-->
       <!--<a-obj-model src="public/models/objects/firetorch.obj" obj-model="public/models/objects/firetorch.obj" scale="0.02 0.02 0.02" material=""></a-obj-model>
