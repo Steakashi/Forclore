@@ -62,17 +62,15 @@ var Teleport= function(){
 
       }
 
-      function check_if_allowed(){
+      function check_if_allowed(player_position){
 
         var value_to_return = false;
 
         if (data.allowed != null){
-
           var list_tp_allowed =data.allowed.split(',');
 
           list_tp_allowed.forEach(function(tp){
-
-            if (player.getAttribute('position') == document.getElementById(tp).getAttribute('teleport', 'target').target){
+            if (player_position == document.getElementById(tp).getAttribute('teleport', 'target').target){
               
               value_to_return = true;
 
@@ -96,9 +94,11 @@ var Teleport= function(){
 
         if (isIntersecting == false){
 
+          var player_position = player.getAttribute('position')
+
           if (data.action == 'teleport' && 
-            (player.getAttribute('position') != data.target && data.disable == false) &&
-            check_if_allowed()){
+            (player_position != data.target && data.disable == false) &&
+            check_if_allowed(player_position)){
 
             return true
 
