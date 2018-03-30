@@ -6,7 +6,6 @@
 	opacity:1;
 
 }
-
 @keyframes add_opacity{
 	from { opacity:0 ; }
     to { opacity:1; }

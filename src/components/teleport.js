@@ -11,6 +11,7 @@ var Teleport= function(){
       target_to_activate: {type: 'string', default:null},
       event: {type: 'string', default:null},
       disable: {type: 'boolean', default:false},
+      allowed: {type:'string', default:null},
       step: {type: 'int', default:0}
     },
 
@@ -61,13 +62,43 @@ var Teleport= function(){
 
       }
 
-      function interaction_is_possible(){
+      function check_if_allowed(){
 
+        var value_to_return = false;
+
+        if (data.allowed != null){
+
+          var list_tp_allowed =data.allowed.split(',');
+
+          list_tp_allowed.forEach(function(tp){
+
+            if (player.getAttribute('position') == document.getElementById(tp).getAttribute('teleport', 'target').target){
+              
+              value_to_return = true;
+
+            }
+
+          })
+
+        }
+        else{
+
+          value_to_return = true;
+
+        }
+        
+        return value_to_return
+
+      }
+
+      function interaction_is_possible(){
 
 
         if (isIntersecting == false){
 
-          if (data.action == 'teleport' && (player.getAttribute('position') != data.target && data.disable == false)){
+          if (data.action == 'teleport' && 
+            (player.getAttribute('position') != data.target && data.disable == false) &&
+            check_if_allowed()){
 
             return true
 
@@ -102,6 +133,8 @@ var Teleport= function(){
       function raycaster_intersected(){
 
         if (interaction_is_possible()){
+
+          console.log('interaction is possible !');
 
           isIntersecting = true;
           loader.style.display = "block";

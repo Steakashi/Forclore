@@ -64,10 +64,10 @@ var Torch = function(){
 
         }
 
-        var collider_entity = '<a-entity teleport="action:light_torch' + _light + _target + _event + _step + '" class="collidable" geometry="" material="transparent: true; opacity: 0 " position="0 0.45 0" scale="0.2 2.3 0.2" ></a-entity>'
+        var collider_entity = '<a-entity teleport="action:light_torch' + _light + _target + _event + _step + '" class="collidable" geometry="" material="transparent: true; opacity: 0 " position="0 1.12 0" scale="1 2.5 1" ></a-entity>'
   			var object = '<a-gltf-model src="#torch_model"></a-gltf-model>'
         //var object = '<a-entity gltf-model="src: url(../models/objects/torch.gltf);" ></a-entity>'
-  			var light = '<a-light type="point" color="rgb(255, 169, 35)" intensity="0" distance="200" position="0 1.541 0"></a-light>'
+  			var light = '<a-light type="point" color="rgb(255, 169, 35)" intensity="0" distance="200" position="-0.032 2.022 -0.16"></a-light>'
 
   			el.innerHTML = collider_entity + object + light;
 

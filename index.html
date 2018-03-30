@@ -1,56 +1,89 @@
 <html>  
- <head>
-   <!--<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>-->
-   <script src="node_modules/aframe/build/aframe.js"></script>
-   <link rel="stylesheet" type="text/css" href="public/css/style.css"> 
-   <script src="public/js/main.js"></script>
-  <!--<script src="src/teleport.js"></script>-->
+<head>
+ <!--<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>-->
+ <script src="node_modules/aframe/build/aframe.js"></script>
+ <link rel="stylesheet" type="text/css" href="public/css/style.css"> 
+ <script src="public/js/main.js"></script>
+ <!--<script src="src/teleport.js"></script>-->
   <!--<script src="https://unpkg.com/aframe-teleport-controls/dist/aframe-teleport-controls.min.js"></script>  
-   <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>-->
- </head>
+  <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>-->
+</head>
 
 
- <body>
-    <img src="public/img/loader.gif" id="teleport_loader" style="position:fixed; top:50%; left:50%; display:none; z-index:10">
-    <div id="black_screen"></div>
-   <a-scene fog="type: linear; color: #111111; far: 3000; near: 0">
-     <a-assets>
-        <a-asset-item id="torch_model" src="public/models/objects/torch.gltf">
-     </a-assets>
-     <a-entity id="questbook" questbook="step:0"></a-entity>
-     <a-gltf-model src="public/models/scenes/scene.gltf" position="34.7 23.904 -132.343" gltf-model="public/models/scenes/scene.gltf"></a-gltf-model> 
-     <a-light type="point" color="white" intensity="1" distance="10000" position="0 5 0"></a-light>
-     <a-sky color="#ECECEC"></a-sky>
+<body>
+  <img src="public/assets/resources/loader.gif" id="teleport_loader" style="position:fixed; top:50%; left:50%; display:none; z-index:10; margin-left:-100px; margin-top:-100px;">
+  <a-scene fog="type: linear; color: #111111; far: 3000; near: 0">
+   <a-assets>
+    <a-asset-item id="torch_model" src="public/models/objects/torch.gltf">
+    </a-assets>
+    <a-entity id="questbook" questbook="step:0"></a-entity>
+
+    <a-gltf-model src="public/models/scenes/scene.gltf" position="-13.15 14.104000000000001 -24.290000000000003" gltf-model="public/models/scenes/scene.gltf"></a-gltf-model>
+
+    <a-light type="ambient" color="white" intensity="1" distance="10000" position="0 5 0"></a-light>
+    <a-sky color="#ECECEC"></a-sky>
 
       <!--<a-camera class="thing" id="player">
         <a-entity id="teleport" teleport-controls></a-entity> 
         <a-entity raycaster="showLine: true; far: 100; objects: .collidable" line="color: red; opacity: 1" position="0 -0.1 0" rotation="0 0 0"></a-entity>
       </a-camera>-->
       <!--<a-entity position="0 2.25 -15" particle-system="preset: dust; particleCount: 10000" rotation="" scale="" visible=""></a-entity>-->
-    <a-camera eyes id="player" wasd-controls look-controls position="0 0 0">
-      <!-- camera -->
+      <a-camera eyes id="player" wasd-controls look-controls position="0 0 0.5">
 
-      <a-plane id="black_screen" shader="flat" color="black" opacity="0" transparent="true" position="0 0 -.1.1"></a-plane>
+        <a-box color="purple" position="-0.026 -0.547 0" scale="0.5 1.1 0.5"></a-box>
+        <a-plane id="black_screen" shader="flat" color="black" opacity="0" transparent="true" position="0 0 -.1.1"></a-plane>
 
-      <a-entity id="text_handler" text_handler position="0 -.0 -.1"
-                text="color: white; align: center; opacity: 1; width: .1; wrapCount:20;">
+        <a-entity id="text_handler" text_handler position="0 -.0 -.1"
+          text="color: white; align: center; opacity: 1; width: .1; wrapCount:20;">
 
-      </a-entity>
+        </a-entity>
 
 
-      <a-entity id="head"></a-entity>
-      <a-entity raycaster="showLine: true; far: 100; objects: .collidable" line="color: red; opacity: 1" position="0 -0.1 0" rotation="0 0 0"></a-entity>
+        <a-entity id="head"></a-entity>
+        <a-entity raycaster="showLine: true; far: 40; objects: .collidable" line="color: red; opacity: 1" position="0 -0.1 0" rotation="0 0 0"></a-entity>
 
-      <!-- hand controls -->
-    </a-camera>
+        <!-- hand controls -->
+      </a-camera>
 
-    <a-entity id="tp_1" teleport="target:0 10 0; action:teleport; disable:true" class="collidable" geometry="" position="6.456 4.338 -18.079" material="color:red" raycaster=""></a-entity>
-    <a-entity teleport="target:0 10 0; action:teleport;" class="collidable" geometry="primitive: box" position="-1 0 -1" material="transparent:true; opacity:.5; color: red"></a-entity>
+    <a-entity id="tp_1" teleport="target:-3.868 1.6 12.391; action:teleport; disable:true" 
+      class="collidable" geometry="" material="transparent:true; opacity:.2; color:red"
+      position="-2.356 1.36 3.033" scale="1 2.01 0.19999999999999996">
+    </a-entity> 
+
+    <a-sphere id="tp_2" teleport="target:-3.868 1.6 12.391; action:teleport;" 
+      class="collidable" wireframe="true" color='red'
+      position="-3.868 1.6 12.391" radius="5">
+    </a-sphere> 
+
+    <a-sphere id="tp_3" teleport="target:-10.546 1.6 27.762; action:teleport; allowed:tp_2,tp_4" 
+      class="collidable" wireframe="true" color='red'
+      position="-10.546 1.6 27.762" radius="5">
+    </a-sphere> 
+
+    <a-sphere id="tp_4" teleport="target:-19.073 1.676 1.05; action:teleport;" 
+      class="collidable" wireframe="true" color="red"
+      position="-19.073 1.676 1.05" radius="5">
+    </a-sphere> 
+
+
+    <a-box
+    class="collidable" color="red" opacity="1" shader="flat" transparent="true" position="-1 0 -1"></a-box>
+
+
     <a-entity teleport='action:interact;' class="collidable" geometry="primitive: box" position="-2 0 -2" material="color: red"></a-entity>
 
-    <a-entity torch="target: tp_1; event: display_text" position="6.409 -0.354 2.293"></a-entity>
-    <a-entity torch position="10 10 10"></a-entity>
-      <!--<a-entity teleport="action:light_torch" class="collidable" geometry="" position="0 0.45 0" material="color:red" scale="0.2 2.3 0.2" ></a-entity>-->
+    <!-- <a-entity class="torch" torch="target: tp_1; event: display_text" position="6.409 -0.354 2.293"></a-entity>-->
+
+    <a-entity class="torch" torch="target:tp_1;event:display_text" position="-3.828 -0.402 -2.136" rotation="-51.2224268846956 -109.43493886998723 -5.557690612768986"></a-entity>
+
+
+    <a-entity id="fake_character">
+      <a-box color="purple" position="-0.026 -0.547 0" scale="0.5 1.1 0.5"></a-box>
+
+    </a-entity>
+
+    <!--<a-entity torch position="10 10 10"></a-entity>-->
+    <!--<a-entity teleport="action:light_torch" class="collidable" position="0 0.45 0" material="color:red" scale="0.2 2.3 0.2" ></a-entity>-->
       <!--<a-obj-model src="public/models/objects/firetorch.obj" obj-model="public/models/objects/firetorch.obj" scale="0.02 0.02 0.02" material=""></a-obj-model>
       <a-light type="point" color="orange" intensity="0" distance="100" position="0 1.541 0">-->
           <!--<a-animation attribute="intensity"  
@@ -62,18 +95,18 @@
                to="2.5"
                repeat="indefinite">
           </a-animation>
-      </a-light>-->
-    
+        </a-light>-->
+
 
 
       <!--  <a-entity camera raycaster="recursive: false; interval: 1000" position="0 -0.9 0" rotation="90 0 0"></a-entity>
-        <a-entity geometry="primitive: box" material="color: #000" position="0 0 -2" raycast-blab></a-entity>-->
+      <a-entity geometry="primitive: box" material="color: #000" position="0 0 -2" raycast-blab></a-entity>-->
       
-   </a-scene>
+    </a-scene>
 
- </body>
- 	<script>
+  </body>
+  <script>
 
- 	</script>
-</html>  
+  </script>
+  </html>  
 

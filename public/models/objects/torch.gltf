@@ -97,12 +97,12 @@
     ], 
     "materials" : [
         {
-            "name" : "Metal_1_mat", 
+            "name" : "wood_mat", 
             "pbrMetallicRoughness" : {
                 "baseColorFactor" : [
-                    0.05218640714883804, 
-                    0.04546204209327698, 
-                    0.046688299626111984, 
+                    0.5595002174377441, 
+                    0.48872682452201843, 
+                    0.4145655035972595, 
                     1.0
                 ], 
                 "metallicFactor" : 0.0
