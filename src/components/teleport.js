@@ -12,7 +12,9 @@ var Teleport= function(){
       event: {type: 'string', default:null},
       disable: {type: 'boolean', default:false},
       allowed: {type:'string', default:null},
-      step: {type: 'int', default:0}
+      step: {type: 'int', default:0},
+      message: {type: 'string', default:null}
+
     },
 
     init: function () {
@@ -26,16 +28,17 @@ var Teleport= function(){
       
       var loader = document.getElementById('teleport_loader');
       var action_to_perform = null;
-
+      var player =  document.getElementById("player");
       var questbook = document.getElementById('questbook')
 
       if (data.action == 'teleport'){
 
+        var sphere_helper = '<a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>';
         var timer_black_screen = 0;
-        var player =  document.querySelector("#player");
         var black_screen = document.getElementById("black_screen");
 
-        action_to_perform = teleport
+        action_to_perform = teleport;
+        //el.innerHTML = sphere_helper;
 
 
       }
@@ -67,12 +70,28 @@ var Teleport= function(){
         var value_to_return = false;
 
         if (data.allowed != null){
-          var list_tp_allowed =data.allowed.split(',');
+          var list_tp_allowed = data.allowed.split(',');
+          console.log(player.getAttribute('position'));
 
           list_tp_allowed.forEach(function(tp){
-            if (player_position == document.getElementById(tp).getAttribute('teleport', 'target').target){
+            console.log(document.getElementById(tp).getAttribute('teleport', 'target').target);
+            console.log(document.getElementById(tp).getAttribute('teleport', 'target').target.x);
+            console.log(player.getAttribute('position').x);
+            console.log(document.getElementById(tp).getAttribute('teleport', 'target').target.x == player.getAttribute('position').x)
+            console.log(document.getElementById(tp).getAttribute('teleport', 'target').target.y);
+            console.log(player.getAttribute('position').y);
+            console.log(document.getElementById(tp).getAttribute('teleport', 'target').target.y == player.getAttribute('position').y)
+            console.log(document.getElementById(tp).getAttribute('teleport', 'target').target.z);
+            console.log(player.getAttribute('position').z);
+            console.log(document.getElementById(tp).getAttribute('teleport', 'target').target.z == player.getAttribute('position').z)
+
+
+            if (player.getAttribute('position').x == document.getElementById(tp).getAttribute('teleport', 'target').target.x &&
+                player.getAttribute('position').y == document.getElementById(tp).getAttribute('teleport', 'target').target.y &&
+                player.getAttribute('position').z == document.getElementById(tp).getAttribute('teleport', 'target').target.z){
               
               value_to_return = true;
+              console.log('GOOD CONDITION');
 
             }
 
@@ -84,6 +103,8 @@ var Teleport= function(){
           value_to_return = true;
 
         }
+
+        console.log(value_to_return);
         
         return value_to_return
 
@@ -91,14 +112,17 @@ var Teleport= function(){
 
       function interaction_is_possible(){
 
-
         if (isIntersecting == false){
+
+          console.log('isintersecing : false');
+          console.log(el);
+
 
           var player_position = player.getAttribute('position')
 
           if (data.action == 'teleport' && 
-            (player_position != data.target && data.disable == false) &&
-            check_if_allowed(player_position)){
+            (player.getAttribute('position') != data.target && data.disable == false) &&
+            check_if_allowed()){
 
             return true
 
@@ -132,6 +156,7 @@ var Teleport= function(){
       
       function raycaster_intersected(){
 
+
         if (interaction_is_possible()){
 
           console.log('interaction is possible !');
@@ -162,21 +187,35 @@ var Teleport= function(){
         }
 
         loader.style.display = "none"
+
         isIntersecting = false;
 
       }
 
       function interact(){
 
-        el.setAttribute('material', 'color', 'green');
+        activate();
         data.disable = true;
         raycaster_intersected_cleared();
+
+        if (data.message != null){
+
+          el.emit('display_text', data.message)
+          loader.style.display = "none"
+
+          setTimeout(function(){
+
+            isIntersecting = false;
+
+          }, 10000);
+
+        } 
 
       }
 
       function teleport(){
 
-        show_black_screen()
+        show_black_screen();
         setTimeout(hide_black_screen, 1000); 
 
       }
@@ -218,7 +257,7 @@ var Teleport= function(){
         light_animation.setAttribute('attribute', 'intensity');
         light_animation.setAttribute("dur", "1000");
         light_animation.setAttribute("from", "0");
-        light_animation.setAttribute("to", "1.6");
+        light_animation.setAttribute("to", "1");
         light_animation.setAttribute("easing", "linear");
 
         target.appendChild(light_animation);
@@ -230,9 +269,9 @@ var Teleport= function(){
         var light_animation = document.createElement('a-animation');
 
         light_animation.setAttribute('attribute', 'intensity');
-        light_animation.setAttribute("dur", "3000");
-        light_animation.setAttribute("from", "1.8");
-        light_animation.setAttribute("to", "2.5");
+        light_animation.setAttribute("dur", "2000");
+        light_animation.setAttribute("from", ".8");
+        light_animation.setAttribute("to", "1.2");
         light_animation.setAttribute("direction", "alternate");
         light_animation.setAttribute("easing", "ease-in-out-elastic");
         light_animation.setAttribute("repeat", "indefinite");
@@ -241,19 +280,30 @@ var Teleport= function(){
         target.appendChild(light_animation);
 
       }
- 
-      function light_torch( ){
 
-        interact(data);
+      function activate(){
 
         if (data.target_to_activate != null) {
 
-          document.getElementById(data.target_to_activate).setAttribute('teleport', 'disable', false);
+          var list_tp_to_enable = data.target_to_activate.split(',');
+
+          list_tp_to_enable.forEach(function(tp){
+
+            document.getElementById(tp).setAttribute('teleport', 'disable', false);
+
+          })
 
         }
 
+      }
+ 
+      function light_torch( ){
+
+        data.disable = true;
+        raycaster_intersected_cleared();
+        activate();
+
         var light_object = el.parentNode.querySelector('a-light');
-        
         create_light_transition(light_object)
 
         requestAnimationFrame(function(timestamp){

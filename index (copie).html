@@ -1,0 +1,301 @@
+<html>  
+<head>
+ <!--<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>-->
+ <script src="node_modules/aframe/build/aframe.js"></script>
+ <link rel="stylesheet" type="text/css" href="public/css/style.css"> 
+ <script src="public/js/main.js"></script>
+ <!--<script src="src/teleport.js"></script>-->
+  <!--<script src="https://unpkg.com/aframe-teleport-controls/dist/aframe-teleport-controls.min.js"></script>  
+  <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>-->
+</head>
+
+
+<body>
+  <img src="public/assets/resources/loader.svg" id="teleport_loader" style="position:fixed; top:50%; left:50%; display:none; z-index:10; margin-left:-100px; margin-top:-100px;">
+  <a-scene stats fog="type: linear; color: #444; far: 30; near: 1">
+   <a-assets>
+    <a-asset-item id="torch_model" src="public/models/objects/torch.gltf">
+    </a-assets>
+    <a-entity id="questbook" questbook="step:0"></a-entity>
+
+    <a-gltf-model src="public/models/scenes/scene.gltf" position="-13.15 14.104000000000001 -24.290000000000003" gltf-model="public/models/scenes/scene.gltf"></a-gltf-model>
+
+    <a-light type="ambient" color="white" intensity=".4" position="0 5 0"></a-light>
+    <a-sky color="#ECECEC"></a-sky>
+
+      <!--<a-camera class="thing" id="player">
+        <a-entity id="teleport" teleport-controls></a-entity> 
+        <a-entity raycaster="showLine: true; far: 100; objects: .collidable" line="color: red; opacity: 1" position="0 -0.1 0" rotation="0 0 0"></a-entity>
+      </a-camera>-->
+      <!--<a-entity position="0 2.25 -15" particle-system="preset: dust; particleCount: 10000" rotation="" scale="" visible=""></a-entity>-->
+      <a-camera eyes id="player" position="0 0 0.5"
+      >
+
+      <!--position="0 0 0.5"-->
+
+        <a-box color="purple" position="-0.026 -0.547 0" scale="0.5 1.1 0.5"></a-box>
+        <a-plane id="black_screen" shader="flat" color="black" opacity="0" transparent="true" position="0 0 -.1.1"></a-plane>
+
+        <a-entity id="text_handler" text_handler position="0 -.0 -.1"
+          text="color: white; align: center; opacity: 1; width: .1; wrapCount:20;">
+
+        </a-entity>
+
+
+        <a-entity id="head"></a-entity>
+        <a-entity raycaster="showLine: true; far: 20; objects: .collidable" line="color: red; opacity: 1" position="0 0 0" rotation="0 0 0"></a-entity>
+
+        <!---->
+
+        <!-- hand controls -->
+      </a-camera>
+
+    <a-entity position="-0.668 1.486 1.466" obj-model="mtl:public/models/objects/torch.mtl;obj:public/models/objects/torch.mtl"></a-entity>
+
+    <a-entity id="tp_1" teleport="target:-0.345 -3.417 76.633; action:teleport; disable:true" 
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false"geometry="" material="transparent:true; opacity:.2; color:red" position="-2.356 1.36 3.033" 
+      scale="1 2.01 0.19999999999999996">
+    </a-entity> 
+
+    
+
+   <!-- -3.868 1.6 12.391!-->
+
+   <a-sphere id="tp_2" teleport="target:-3.868 1.6 12.391; action:teleport; allowed:tp_1,tp_3,tp_4" 
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false" position="-3.868 1.6 12.391" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+    <a-sphere id="tp_3" teleport="target:-10.122 1.6 30.034; action:teleport; allowed:tp_2,tp_4,tp_5; disable:true"
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false" position="-10.122 1.6 30.034" radius="2"> 
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+    <a-sphere id="tp_4" teleport="target:-19.073 1.676 1.05; action:teleport; allowed:tp_2,tp_3; disable:true"
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false" position="-19.073 1.676 1.05" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere> 
+
+    <a-sphere id="tp_5" teleport="target:-21.33 1.046 45.78; action:teleport; allowed:tp_6,tp_3,tp_10,tp_7;" 
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false" position="-21.33 1.046 45.78" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+    <a-sphere id="tp_6" teleport="target:-27.921 -0.411 61.849;action:teleport;allowed:tp_5,tp_12; disable:true"
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false" position="-27.921 -0.411 61.849" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+    <a-sphere id="tp_7" teleport="target:-7.328 -0.263 57.792; action:teleport; allowed:tp_8,tp_5,tp_9; disable:true"
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false" position="-7.328 -0.263 57.792" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere> 
+
+    <a-sphere id="tp_8" teleport="target:8.426 0.666 47.208; action:teleport; allowed:tp_7"
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false" position="8.426 0.666 47.208" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+    <a-sphere id="tp_9" teleport="target:-0.345 -3.417 76.633; action:teleport; allowed:tp_7,tp_13"
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false"
+      position="-0.345 -3.417 76.633" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere> 
+
+    <a-sphere id="tp_10" teleport="target:-39.776 1.898 41.657;action:teleport; allowed:tp_5,tp_11; disable:true"
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false" position="-39.776 1.898 41.657" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+    <a-sphere id="tp_11" teleport="target:-48.934 7 58.309; action:teleport; allowed:tp_10"
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false" position="-48.934 7 58.309" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+    <a-sphere id="tp_12" teleport="target:-32.705 -3.985 77.296; action:teleport"
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false" position="-32.705 -3.985 77.296" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+    <a-sphere id="tp_13" teleport="target:-6.016 -8.63 94.629; action:teleport; allowed:tp_9,tp_14;"
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false" position="-6.016 -8.63 94.629" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+    <a-sphere id="tp_14" teleport="target:-22.679 -10.068 104.081; action:teleport; allowed:tp_13,tp_15; disable:true"
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false" position="-22.679 -10.068 104.081" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+    <a-sphere id="tp_15" teleport="target:-39.985 -9.784 101.771;action:teleport;allowed:tp_14,tp_15-2,tp_16,tp_17"
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false" position="-39.985 -9.784 101.771" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+    <a-sphere id="tp_15-2" teleport="target:-52.562 -10.323 108.855; action:teleport;allowed:tp_15,tp_17; disable:true"
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false" position="-52.562 -10.323 108.855" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+    <a-sphere id="tp_16" teleport="target:-34.667 -11.089 113.545; action:teleport; allowed:tp_14,tp_15; disable:true"
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false" position="-34.667 -11.089 113.545" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+    <a-sphere id="tp_17" teleport="target:-58.9 -9.824 97.285;action:teleport;allowed:tp_15,tp_15-2; disable:true"
+    class="collidable" 
+    material="opacity:0;transparent:true;depthTest:false" position="-58.9 -9.824 97.285" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+    <a-sphere id="tp_18" teleport="target:-63.024 -5.722 82.5;action:teleport;allowed:tp_17;disable:true"
+      class="collidable" 
+      material="opacity:0;transparent:true;depthTest:false" position="-64.204 -7.727 90.227" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_19" teleport="target:-58.041 -4.014 70.891;action:teleport;allowed:tp_18" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-62.074 -4.384 75.079" radius="2" geometry="radius:1">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_20" teleport="target:-57.77 -4 61.24; action:teleport;allowed:tp_19,tp_21" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-57.77 -4 61.24" radius="2" geometry="radius:2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_21" teleport="target:-65.836 -2.004 57.807;action:teleport;allowed:tp_20,tp_22" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-65.836 -2.004 57.807" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_22" teleport="target:-61.321 0.632 67;action:teleport;allowed:tp_21,tp_23" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-61.321 0.632 67" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_23" teleport="target:-64.629 1.967 71.826; action:teleport;allowed:tp_22,tp_24" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-64.629 1.967 71.826" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_24" teleport="target:-56.257 4.763 77.838;action:teleport;allowed:tp_23,tp_25" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-56.257 4.763 77.838" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_25" teleport="target:-58.796 7.073 60.775;action:teleport;allowed:tp_24" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-57.178 6.403 67.839" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_26" teleport="target:-65.561 10.001 57.981;action:teleport;allowed:tp_25,tp_27" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-65.561 10.001 57.981" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_27" teleport="target:-61.309 12.851 67.57;action:teleport;allowed:tp_26,tp_28" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-61.309 12.851 67.57" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_28" teleport="target:-50.725 15.624 61.884;action:teleport;allowed:tp_27,tp_29" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-50.725 15.624 61.884" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_29" teleport="target:-55.844 15.624 52.43;action:teleport;allowed:tp_28,tp_30" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-55.844 15.624 52.43" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_30" teleport="target:-65.65 19.127 57.896;action:teleport;allowed:tp_29,tp_31" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-65.65 19.127 57.896" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_31" teleport="target:-60.783 21.87 66.775;action:teleport;allowed:tp_30,tp_32" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-60.783 21.87 66.775" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_32" teleport="target:-51.441 21.602 61.835;action:teleport;allowed:tp_31,tp_33" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-51.441 21.602 61.835" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_33" teleport="target:-56.218 25.698 52.651;action:teleport;allowed:tp_32,tp_34" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-56.218 25.698 52.651" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_34" teleport="target:-66.091 28.049 57.521;action:teleport;allowed:tp_33,tp_35" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-66.091 28.049 57.521" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+<a-sphere id="tp_35" teleport="target:-63.546 28.049 62.867;action:teleport;allowed:tp_34" class="collidable" 
+  material="opacity:0;transparent:true;depthTest:false" position="-63.546 28.049 62.867" radius="2">
+    <a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>
+    </a-sphere>
+
+
+    <!-- <a-entity class="torch" torch="target: tp_1; event: display_text" position="6.409 -0.354 2.293"></a-entity>-->
+
+<a-entity class="torch" torch="target:tp_1" position="-3.828 -0.402 -2.136" rotation="-51.2224268846956 -109.43493886998723 -5.557690612768986"></a-entity>
+<!--<a-entity class="torch" torch="target:tp_3,tp_4" position="-1.384 -0.733 15.438" rotation="0 90 -4.6979999999999995"></a-entity>
+<a-entity class="torch" torch="target:tp_6" position="-26.553 -0.362 54.034" rotation="-0.4583662361046586 9.568395178684748 -15.01149423242757"></a-entity>
+<a-entity class="torch" torch="target:tp_10" position="-34.443 -0.362 37.229" rotation="-0.4583662361046586 -108.11713594118635 -15.01149423242757"></a-entity>
+<a-entity class="torch" torch="light:true; disable:true" position="-52.254 3.789 51.686" rotation="12.490479933851946 -167.1317888396611 10.771606548459477"></a-entity>
+<a-entity class="torch" torch="target:tp_7" position="-7.346 -1.915 49.801" rotation="-0.4583662361046586 -101.35623395864262 -15.01149423242757"></a-entity>
+<a-entity class="torch" torch="light:true; disable:true" position="3.743 -4.135 72.779" rotation="-0.4583662361046586 -101.35623395864262 -15.01149423242757"></a-entity>
+<a-entity class="torch" torch="target:tp_14" position="-18.54 -12.349 97.922" rotation="-6.41712730546522 -34.95042550298022 -23.433973820850667"></a-entity>
+<a-entity class="torch" torch="target:tp_16,tp_15-2,tp_17" position="-41.454 -12.888 108.168" rotation="4.698253920072751 50.59217331005169 -9.91216985576324"></a-entity>
+<a-sphere id="tp_16-2" teleport="action:interact;target_to_activate:tp_18" class="collidable" color="grey" position="-39.019 -12.462 114.169" radius="2" 
+    geometry="radius:0.5" raycaster="">
+    </a-sphere>-->
+<!--
+<a-entity class="torch" torch="light:true; disable:true" 
+    position="-63.676 -5.664 74.434" rotation="-0.4583662361046586 -87.60524687550287 -15.01149423242757"></a-entity>
+<a-entity class="torch" torch="light:true; disable:true" 
+    position="-64.034 -1.766 63.753" rotation="5.500394833255903 13.2926208470351 -15.355268909506064"></a-entity>
+<a-entity class="torch" torch="light:true; disable:true" 
+    position="-50.157 4.027 66.901" rotation="40.5081161157492 -64.28586461367837 1.088619810748564"></a-entity>
+<a-entity class="torch" torch="light:true; disable:true" 
+    position="-62.129 10.597 54.317" rotation="38.044397596686665 29.679213787776643 7.047380880109126"></a-entity>
+<a-entity class="torch" torch="light:true; disable:true" 
+    position="-59.923 27.55 52.809" rotation="38.044397596686665 29.679213787776643 7.047380880109126"></a-entity>
+<a-entity class="torch" torch="light:true; disable:true" 
+    position="-55.813 15.744 66.359" rotation="37.07036934496426 -146.90637867154308 8.995437383553925"></a-entity>-->
+<!--
+    <a-entity id="fake_character">
+      <a-box color="purple" position="-0.026 -0.547 0" scale="0.5 1.1 0.5"></a-box>
+
+    </a-entity>-->
+
+      
+    </a-scene>
+
+  </body>
+  <script>
+
+  </script>
+  </html>  
+
