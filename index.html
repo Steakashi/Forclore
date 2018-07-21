@@ -12,9 +12,12 @@
 
 <body>
   <img src="public/assets/resources/loader.svg" id="teleport_loader" style="position:fixed; top:50%; left:50%; display:none; z-index:10; margin-left:-100px; margin-top:-100px;">
-  <a-scene stats fog="type: linear; color: #FFF; far: 18000; near: 4000">
-     <a-assets>
+  <!--<a-scene stats fog="density: 0.03; far: 1000; type: exponential; color: #DDD">-->
+    <a-scene stats>
+    <a-assets>
       <a-asset-item id="scene" src="public/assets/models/scene.gltf"></a-asset-item>
+      <a-mixin id="sun_rotation" attribute="rotation" dur="50000" fill="forwards" from="0 0 0" dur="5000" easing="linear" repeat="indefinite"></a-mixin>
+      <a-mixin id="sun_ambient_light" attribute="intensity" dur="12500" direction="alternate" fill="forwards" from="1" to="1" easing="ease-out-quint" repeat="indefinite"></a-mixin>
     </a-assets>
 
     <a-sky color="#000"></a-sky>
@@ -23,16 +26,24 @@
 
     <!--<a-gltf-model src="public/models/scenes/scene.gltf" position="-13.15 14.104000000000001 -24.290000000000003" gltf-model="public/models/scenes/scene.gltf">#</a-gltf-model>-->
 <a-entity position="0 0 0.001" rotation="0 0 -108.51605999999983">
-          <a-light type="point" color="#FAA" intensity="1" position="-83.295 0 0" light="type:directional" rotation="0 0 108.52595999999976">
-                          <a-animation attribute="rotation" dur="10000" fill="forwards" from="0 0 0" to="0 0 360" easing="linear" repeat="indefinite"></a-animation>
+          <a-light type="point" color="#FAA" intensity="1" position="-70 0 0" light="type:directional" rotation="0 0 108.52595999999976">
+          <a-entity id="sun" geometry="primitive:sphere" material="color:yellow; shader:flat;" scale="-3 -3 -3"></a-entity>
+            <a-animation mixin="sun_rotation" to="0 0 360"></a-animation>
           </a-light>
-              <a-animation attribute="rotation" dur="10000" fill="forwards" from="0 0 0" to="0 0 -360" easing="linear" repeat="indefinite"></a-animation>
+          <a-light type="ambient" color="#FAA" intensity=".5" position="-70 0 0" rotation="0 0 -6.13575">
+            <a-animation mixin="sun_ambient_light"></a-animation>   
+          </a-light>
+              <a-animation mixin="sun_rotation" to="0 0 -360"></a-animation>
+
+
+
+
     </a-entity>
 
 
     <a-entity id="scene" position="0.001 -0.005 -0.001" scale="0.09 0.09 0.09" gltf-model="public/assets/models/scene.gltf"></a-entity>
-    <a-entity position="0 -1.238 0" rotation="90 0 0" geometry="height:140;width:140;primitive:plane"></a-entity>
-    <a-camera eyes id="player" position="-5.084 1.614 29.701">
+    <!--<a-entity id="sun_cache" position="0 -4.474 0" rotation="90 0 0" geometry="height:140;width:140;color:black"></a-entity>-->
+    <a-camera eyes id="player" position="-5.084 0 29.701">
 
       <!--position="0 0 0.5"-->
 
@@ -58,3 +69,4 @@
 
   </script>
   </html>  
+
