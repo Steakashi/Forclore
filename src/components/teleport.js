@@ -5,53 +5,36 @@ var Teleport= function(){
   AFRAME.registerComponent('teleport', {
     dependencies: ['raycaster'],
     schema: {
-      target: {type: 'vec3'},
-      action: {type: 'string'},
-      light: {type: 'boolean'},
-      target_to_activate: {type: 'string', default:null},
-      event: {type: 'string', default:null},
-      disable: {type: 'boolean', default:false},
-      allowed: {type:'string', default:null},
-      step: {type: 'int', default:0},
-      message: {type: 'string', default:null}
+      target            : {type: 'vec3'},                   // Point location for teleport                                                                                                                                       
+      action            : {type: 'string'},                 // Interaction type. Possible values : "teleport", "interact", "light_torch".                                                                                                                            
+      light             : {type: 'boolean'},                // Create light animation if true                                                                                                                     
+      target_to_activate: {type: 'string', default:null},   // List of teleport to activate if object triggered. List of id separated by comma.                                                                                    
+      event             : {type: 'string', default:null},   // Event to trigger if object activated.                                                                                                                 
+      disable           : {type: 'boolean', default:false}, // If true, block object interaction.                                                                                                                
+      allowed           : {type:'string', default:null},    // List of point from which the player can interact with the object. If null, interaction is possible from anywhere.                    
+      step              : {type: 'int', default:0},         // If not empty, interaction will define the questbook to a specific step.                                                                                                                  
+      message           : {type: 'string', default:null}    // Message to display when object triggered.                                                                                                                    
 
     },
 
-    init: function () {
+    init: function () { 
+
       var el = this.el;
+      var data = this.data
       var isIntersecting = false;
 
       var global_timer = 0;
-
-      var data = this.data
-      this.data_test = this.data
       
       var loader = document.getElementById('teleport_loader');
       var action_to_perform = null;
       var player =  document.getElementById("player");
       var questbook = document.getElementById('questbook')
 
-      if (data.action == 'teleport'){
+      var sphere_helper = '<a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>';
+      var timer_black_screen = 0;
+      var black_screen = document.getElementById("black_screen");
 
-        var sphere_helper = '<a-sphere position="0 2 0" geometry="radius:0.1"></a-sphere>';
-        var timer_black_screen = 0;
-        var black_screen = document.getElementById("black_screen");
-
-        action_to_perform = teleport;
-        //el.innerHTML = sphere_helper;
-
-
-      }
-      else if (data.action == 'interact'){
-
-        action_to_perform = interact
-
-      }
-            else if (data.action == 'light_torch'){
-
-        action_to_perform = light_torch
-
-      }
+      action_to_perform = detect_action_type(data.action)
 
       if (data.light == true){
 
@@ -62,6 +45,16 @@ var Teleport= function(){
 
         this.el.addEventListener('raycaster-intersected', raycaster_intersected);
         this.el.addEventListener('raycaster-intersected-cleared', raycaster_intersected_cleared); 
+
+      }
+
+      function detect_action_type(action){
+
+        if      (data.action == 'teleport'){    action_to_perform = teleport; }
+        else if (data.action == 'interact'){    action_to_perform = interact; }
+        else if (data.action == 'light_torch'){ action_to_perform = light_torch; }
+
+        return action_to_perform
 
       }
 
