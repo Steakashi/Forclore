@@ -1,8 +1,8 @@
-var Teleport= function(){
+var Interaction= function(){
 
   "use strict";
 
-  AFRAME.registerComponent('teleport', {
+  AFRAME.registerComponent('interaction', {
     dependencies: ['raycaster'],
     schema: {
       target            : {type: 'vec3'},                   // Point location for teleport                                                                                                                                       
@@ -19,6 +19,7 @@ var Teleport= function(){
 
     init: function () { 
 
+      // Initialize important variables
       var el = this.el;
       var data = this.data
       var isIntersecting = false;
@@ -34,7 +35,7 @@ var Teleport= function(){
       var timer_black_screen = 0;
       var black_screen = document.getElementById("black_screen");
 
-      action_to_perform = detect_action_type(data.action)
+      action_to_perform = _detect_action_type(data.action)
 
       if (data.light == true){
 
@@ -48,7 +49,10 @@ var Teleport= function(){
 
       }
 
-      function detect_action_type(action){
+      /*
+       * CHECKERS & HANDLERS
+       */
+      function _detect_action_type(action){
 
         if      (data.action == 'teleport'){    action_to_perform = teleport; }
         else if (data.action == 'interact'){    action_to_perform = interact; }
@@ -58,33 +62,24 @@ var Teleport= function(){
 
       }
 
-      function check_if_allowed(player_position){
+      function _check_if_allowed(player_position){
+        /**
+         * Intermediate check function (called for teleport interaction type)
+         * If allowed data is found, check if player can use teleporter by comparing player's position to all allowed tp's positions.
+         * @param {vec3} [player_position] [Player position in space]
+         */
 
         var value_to_return = false;
 
         if (data.allowed != null){
           var list_tp_allowed = data.allowed.split(',');
-          console.log(player.getAttribute('position'));
 
           list_tp_allowed.forEach(function(tp){
-            console.log(document.getElementById(tp).getAttribute('teleport', 'target').target);
-            console.log(document.getElementById(tp).getAttribute('teleport', 'target').target.x);
-            console.log(player.getAttribute('position').x);
-            console.log(document.getElementById(tp).getAttribute('teleport', 'target').target.x == player.getAttribute('position').x)
-            console.log(document.getElementById(tp).getAttribute('teleport', 'target').target.y);
-            console.log(player.getAttribute('position').y);
-            console.log(document.getElementById(tp).getAttribute('teleport', 'target').target.y == player.getAttribute('position').y)
-            console.log(document.getElementById(tp).getAttribute('teleport', 'target').target.z);
-            console.log(player.getAttribute('position').z);
-            console.log(document.getElementById(tp).getAttribute('teleport', 'target').target.z == player.getAttribute('position').z)
-
-
             if (player.getAttribute('position').x == document.getElementById(tp).getAttribute('teleport', 'target').target.x &&
                 player.getAttribute('position').y == document.getElementById(tp).getAttribute('teleport', 'target').target.y &&
                 player.getAttribute('position').z == document.getElementById(tp).getAttribute('teleport', 'target').target.z){
               
               value_to_return = true;
-              console.log('GOOD CONDITION');
 
             }
 
@@ -96,26 +91,25 @@ var Teleport= function(){
           value_to_return = true;
 
         }
-
-        console.log(value_to_return);
         
         return value_to_return
 
       }
 
-      function interaction_is_possible(){
-
+      function _interaction_is_possible(){
+        /**
+         * Detect if interaction with current object is possible.
+         * 1.   Check if general interaction is possible
+         * 2.a. If interaction type is teleport and player position is different from object position, launch intermediate verification.
+         * 2.b. If interaction type is different, juste check if interaction is enabled.
+         */
+        
         if (isIntersecting == false){
-
-          console.log('isintersecing : false');
-          console.log(el);
-
-
           var player_position = player.getAttribute('position')
 
           if (data.action == 'teleport' && 
             (player.getAttribute('position') != data.target && data.disable == false) &&
-            check_if_allowed()){
+            _check_if_allowed()){
 
             return true
 
@@ -125,34 +119,45 @@ var Teleport= function(){
             return true
 
           } 
-
         }
 
         return false
 
       }
 
-      function event_handler(){
+      function _animation_mixin_handler(mixin_name, element){
+        /**
+         * Generate animation mixin for transitions and lights.
+         * @param {string} [mixin_name] [Type of transition. Two values accepted : 
+         *                               - "screen_hide" : progressively translate screen to black. 
+         *                               - "screen_show" : progressively remove black screen.]
+         */
+        
+        var animation = document.createElement('a-animation');
+        animation.setAttribute("mixin", mixin_name);
+        element.appendChild(animation);
+
+      }
+
+      function _event_handler(){
 
         if (data.event){ 
 
-          console.log('event handler from teleport');
-          //questbook.setAttribute('questbook', 'step', 100);
-          console.log(questbook);
-          console.log(data.step);
           var step = data.step.toString();
           el.emit('pass_step', step); 
 
         }
 
       }
+
+      /*
+       * RAYCASTING
+       */
       
       function raycaster_intersected(){
 
 
-        if (interaction_is_possible()){
-
-          console.log('interaction is possible !');
+        if (_interaction_is_possible()){
 
           isIntersecting = true;
           loader.style.display = "block";
@@ -162,7 +167,7 @@ var Teleport= function(){
             global_timer = setTimeout(function(){
 
               action_to_perform() 
-              event_handler();
+              _event_handler();
 
             }, 1000);
 
@@ -185,12 +190,45 @@ var Teleport= function(){
 
       }
 
-      function interact(){
+      /*
+       * ANIMATION HANDLERS
+       */
 
-        activate();
+      function hide_screen(){ _animation_mixin_handler('scene_hide', black_screen); }
+      function show_screen(){ player.setAttribute('position', data.target ); _animation_mixin_handler('scene_show', black_screen); }
+      function create_light_transition(target){ _animation_mixin_handler('create_light', target); }
+      function create_light_animation_repeat(target){ _animation_mixin_handler('light_animation', target); }
+
+      /*
+       * CORE
+       */
+      function disable_future_interactions(){
+
         data.disable = true;
         raycaster_intersected_cleared();
 
+      }
+
+      function activate_teleporters(){
+        /**
+         * Activate list of tps given by data.target_to_activate.
+         */
+
+        if (data.target_to_activate != null) {
+
+          var list_tp_to_enable = data.target_to_activate.split(',');
+          list_tp_to_enable.forEach(function(tp){
+
+            document.getElementById(tp).setAttribute('teleport', 'disable', false);
+
+          })
+
+        }
+
+      }
+
+      function display_message(){
+        
         if (data.message != null){
 
           el.emit('display_text', data.message)
@@ -203,98 +241,26 @@ var Teleport= function(){
           }, 10000);
 
         } 
-
       }
 
       function teleport(){
 
-        show_black_screen();
-        setTimeout(hide_black_screen, 1000); 
-
-      }
-
-      function show_black_screen(){
-
-        var black_screen_animation = document.createElement('a-animation');
-
-        black_screen_animation.setAttribute('attribute', 'opacity');
-        black_screen_animation.setAttribute("dur", "1000");
-        black_screen_animation.setAttribute("from", "0");
-        black_screen_animation.setAttribute("to", "1");
-        black_screen_animation.setAttribute("easing", "linear");
-
-        black_screen.appendChild(black_screen_animation);
-
-      }
-
-      function hide_black_screen(){
-        
-        player.setAttribute('position', data.target );
-        
-        var black_screen_animation = document.createElement('a-animation');
-
-        black_screen_animation.setAttribute('attribute', 'opacity');
-        black_screen_animation.setAttribute("dur", "1000");
-        black_screen_animation.setAttribute("from", "1");
-        black_screen_animation.setAttribute("to", "0");
-        black_screen_animation.setAttribute("easing", "linear");
-
-        black_screen.appendChild(black_screen_animation);
-
-      }
-
-      function create_light_transition(target){
-
-        var light_animation = document.createElement('a-animation');
-
-        light_animation.setAttribute('attribute', 'intensity');
-        light_animation.setAttribute("dur", "1000");
-        light_animation.setAttribute("from", "0");
-        light_animation.setAttribute("to", "1");
-        light_animation.setAttribute("easing", "linear");
-
-        target.appendChild(light_animation);
-
-      }
-
-      function create_light_animation_repeat(target){
-
-        var light_animation = document.createElement('a-animation');
-
-        light_animation.setAttribute('attribute', 'intensity');
-        light_animation.setAttribute("dur", "2000");
-        light_animation.setAttribute("from", ".8");
-        light_animation.setAttribute("to", "1.2");
-        light_animation.setAttribute("direction", "alternate");
-        light_animation.setAttribute("easing", "ease-in-out-elastic");
-        light_animation.setAttribute("repeat", "indefinite");
-        light_animation.setAttribute("fill", "forwards");
-
-        target.appendChild(light_animation);
-
-      }
-
-      function activate(){
-
-        if (data.target_to_activate != null) {
-
-          var list_tp_to_enable = data.target_to_activate.split(',');
-
-          list_tp_to_enable.forEach(function(tp){
-
-            document.getElementById(tp).setAttribute('teleport', 'disable', false);
-
-          })
-
-        }
+        hide_screen();
+        setTimeout(show_screen, 1000);
+        display_message();
 
       }
  
+      function interact(){
+        activate_teleporters();
+        disable_future_interactions();
+        display_message();
+
+      }
+
       function light_torch( ){
 
-        data.disable = true;
-        raycaster_intersected_cleared();
-        activate();
+        interact();
 
         var light_object = el.parentNode.querySelector('a-light');
         create_light_transition(light_object)
@@ -318,28 +284,10 @@ var Teleport= function(){
 
       this.init();
 
-    },
-
-
-    intersectHandler: function(){
-
-      
-    },
-
-    intersectRemovalHandler: function(){
-
-
-
-    },
-
-
-    teleportCharacter: function(el, player){
-
-
     }
 
   }); 
 
 };
 
-exports.launch = Teleport;
+exports.init = Interaction;
