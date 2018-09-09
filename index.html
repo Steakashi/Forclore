@@ -16,15 +16,22 @@
     <a-scene stats>
     <a-assets>
       <a-asset-item id="scene" src="public/assets/models/scene.gltf"></a-asset-item>
+
       <!-- ROTATIONS -->
       <a-mixin id="sun_rotation" attribute="rotation" dur="50000" fill="forwards" from="0 0 0" dur="5000" easing="linear" repeat="indefinite"></a-mixin>
       <a-mixin id="sun_ambient_light" attribute="intensity" dur="12500" direction="alternate" fill="forwards" from="1" to="1" easing="ease-out-quint" repeat="indefinite"></a-mixin>
+
       <!-- TRANSITIONS -->
       <a-mixin id="scene_hide" attribute="opacity" dur="1000" from="0" to="1" easing="linear"></a-mixin>
       <a-mixin id="scene_show" attribute="opacity" dur="1000" from="1" to="0" easing="linear"></a-mixin>
+
+      <!-- LIGHTS -->
       <a-mixin id="create_light" attribute="intensity" dur="1000" from="0" to="1", easing="linear"></a-mixin>
       <a-mixin id="light_animation" attribute="intensity" dur="2000" from=".8" to="1.2"
                direction="alternate" easing="ease-in-out-elastic" repeat="indefinite" fill="forwards"></a-mixin>
+
+      <!-- TEXT -->
+      <a-mixin id="text_animation" attribute="text.opacity" dur="3000" from="0" to="1" direction="alternate" repeat="1" easing="ease-out-expo"></a-mixin>
 
     </a-assets>
 
@@ -45,7 +52,10 @@
               <a-animation mixin="sun_rotation" to="0 0 -360"></a-animation>
     </a-entity>
     -->
-<a-entity id="tp_1" interaction="target:-0.345 -3.417 76.633;action:teleport" class="collidable" material="depthTest:false;opacity:0;transparent:true" geometry="" position="-3.828 1.36 20.884" scale="1 2.01 0.19999999999999996" raycaster="">
+<a-entity id="tp_1" interaction="target:-0.345 -3.417 76.633;action:interact; message:test de message" class="collidable" material="depthTest:false;opacity:0;transparent:true" geometry="" position="-3.828 1.36 20.884" scale="1 2.01 0.19999999999999996" raycaster="">
+    </a-entity>
+
+    <a-entity id="tp_2" interaction="target:-3.345 -5.417 76.633;action:interact; message:test de message 2" class="collidable" material="depthTest:false;opacity:0;transparent:true" geometry="" position="-6.828 3.36 20.884" scale="1 2.01 0.19999999999999996" raycaster="">
     </a-entity>
 
     <a-entity id="scene" position="0.001 -0.005 -0.001" scale="0.09 0.09 0.09" gltf-model="public/assets/models/scene.gltf"></a-entity>

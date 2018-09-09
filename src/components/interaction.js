@@ -8,12 +8,12 @@ var Interaction= function(){
       target            : {type: 'vec3'},                   // Point location for teleport                                                                                                                                       
       action            : {type: 'string'},                 // Interaction type. Possible values : "teleport", "interact", "light_torch".                                                                                                                            
       light             : {type: 'boolean'},                // Create light animation if true                                                                                                                     
-      target_to_activate: {type: 'string', default:null},   // List of teleport to activate if object triggered. List of id separated by comma.                                                                                    
-      event             : {type: 'string', default:null},   // Event to trigger if object activated.                                                                                                                 
+      target_to_activate: {type: 'string', default:null},   // List of teleport to activate if object is triggered. List of id separated by comma.                                                                                    
+      event             : {type: 'string', default:null},   // Event to trigger if object is activated.                                                                                                                 
       disable           : {type: 'boolean', default:false}, // If true, block object interaction.                                                                                                                
       allowed           : {type:'string', default:null},    // List of point from which the player can interact with the object. If null, interaction is possible from anywhere.                    
       step              : {type: 'int', default:0},         // If not empty, interaction will define the questbook to a specific step.                                                                                                                  
-      message           : {type: 'string', default:null}    // Message to display when object triggered.                                                                                                                    
+      message           : {type: 'string', default:null}    // Message to display when object is triggered.                                                                                                                    
 
     },
 
@@ -228,6 +228,9 @@ var Interaction= function(){
       }
 
       function display_message(){
+
+        console.log('DISPLAY MESSAGE');
+        console.log(data.message);
         
         if (data.message != null){
 
