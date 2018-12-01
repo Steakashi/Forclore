@@ -11,10 +11,11 @@ var Interaction= function(){
       target_to_activate: {type: 'string', default:null},   // List of teleport to activate if object is triggered. List of id separated by comma.                                                                                    
       event             : {type: 'string', default:null},   // Event to trigger if object is activated.                                                                                                                 
       disable           : {type: 'boolean', default:false}, // If true, block object interaction.                                                                                                                
-      allowed           : {type:'string', default:null},    // List of point from which the player can interact with the object. If null, interaction is possible from anywhere.                    
+      allowed           : {type: 'string', default:null},   // List of point from which the player can interact with the object. If null, interaction is possible from anywhere.                    
       step              : {type: 'int', default:0},         // If not empty, interaction will define the questbook to a specific step.                                                                                                                  
-      message           : {type: 'string', default:null}    // Message to display when object is triggered.                                                                                                                    
-
+      message           : {type: 'string', default:null},   // Message to display when object is triggered.
+      repeat            : {type: 'boolean', default:true},  // If false, action will not be triggered after first interaction.
+      processing        : {type: 'boolean', default:false}  // Block multiple execution of script. Do not update this value !                                                                                                 
     },
 
     init: function () { 
@@ -22,7 +23,6 @@ var Interaction= function(){
       // Initialize important variables
       var el = this.el;
       var data = this.data
-      var isIntersecting = false;
 
       var global_timer = 0;
       
@@ -103,8 +103,7 @@ var Interaction= function(){
          * 2.a. If interaction type is teleport and player position is different from object position, launch intermediate verification.
          * 2.b. If interaction type is different, juste check if interaction is enabled.
          */
-        
-        if (isIntersecting == false){
+        if (data.processing == false){
           var player_position = player.getAttribute('position')
 
           if (data.action == 'teleport' && 
@@ -115,12 +114,10 @@ var Interaction= function(){
 
           }
           else if ((data.action == 'interact' || data.action == "light_torch") && data.disable == false){
-
             return true
 
           } 
         }
-
         return false
 
       }
@@ -156,10 +153,12 @@ var Interaction= function(){
       
       function raycaster_intersected(){
 
+        console.log('RAYCASTER INTERSECTED')
 
         if (_interaction_is_possible()){
 
-          isIntersecting = true;
+          data.processing = true;
+
           loader.style.display = "block";
           
           requestAnimationFrame(function(timestamp){
@@ -186,7 +185,7 @@ var Interaction= function(){
 
         loader.style.display = "none"
 
-        isIntersecting = false;
+        data.processing = false;
 
       }
 
@@ -204,8 +203,11 @@ var Interaction= function(){
        */
       function disable_future_interactions(){
 
-        data.disable = true;
-        raycaster_intersected_cleared();
+        if (data.repeat == false){
+
+          data.disable = true;
+          raycaster_intersected_cleared();
+        }
 
       }
 
@@ -239,9 +241,9 @@ var Interaction= function(){
 
           setTimeout(function(){
 
-            isIntersecting = false;
+            data.processing = false;
 
-          }, 10000);
+          }, 1000);
 
         } 
       }
@@ -255,8 +257,8 @@ var Interaction= function(){
       }
  
       function interact(){
-        activate_teleporters();
         disable_future_interactions();
+        activate_teleporters();
         display_message();
 
       }

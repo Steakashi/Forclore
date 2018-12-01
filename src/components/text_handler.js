@@ -18,7 +18,7 @@ var TextHandler = function(){
           el.setAttribute('text', 'value', text.detail);
           var animation = document.createElement('a-animation');
           animation.setAttribute("mixin", 'text_animation');
-          e.appendChild(animation);
+          el.appendChild(animation);
 
         }
 
