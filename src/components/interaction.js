@@ -15,6 +15,7 @@ var Interaction= function(){
       step              : {type: 'int', default:0},         // If not empty, interaction will define the questbook to a specific step.                                                                                                                  
       message           : {type: 'string', default:null},   // Message to display when object is triggered.
       repeat            : {type: 'boolean', default:true},  // If false, action will not be triggered after first interaction.
+      delete            : {type: 'boolean', default:false}, // If true, delete object after triggered.
       processing        : {type: 'boolean', default:false}  // Block multiple execution of script. Do not update this value !                                                                                                 
     },
 
@@ -207,7 +208,9 @@ var Interaction= function(){
 
           data.disable = true;
           raycaster_intersected_cleared();
-        }
+
+          if (data.delete){ entity.parentNode.removeChild(entity); }
+          }
 
       }
 
