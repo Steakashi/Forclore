@@ -234,7 +234,7 @@ var Interaction= function(){
 
       function display_message(){
 
-        console.log('DISPLAY MESSAGE');
+        console.log('DISPLAY MESSAGE lol');
         console.log(data.message);
         
         if (data.message != null){

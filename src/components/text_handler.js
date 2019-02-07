@@ -15,9 +15,15 @@ var TextHandler = function(){
 
         function display_text(text){
 
+          var animation_found = document.getElementById('text_animation_id');
+          if (animation_found){
+            animation_found.parentNode.removeChild(animation_found)
+          }
+
           el.setAttribute('text', 'value', text.detail);
           var animation = document.createElement('a-animation');
           animation.setAttribute("mixin", 'text_animation');
+          animation.setAttribute("id", 'text_animation_id');
           el.appendChild(animation);
 
         }
